@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
 import { Container } from 'flux/utils';
-import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import momentTimezone from 'moment-timezone';
 import actions from '../../actions';
 import store from '../../store';
 import Header from '../../components/Header';
 import Preparing from '../Preparing';
-import Home from "../Home";
 import Login from '../Login';
+import Archives from "../Archives";
+
+momentTimezone.tz.setDefault('Asia/Seoul');
 
 class App extends Component {
   static getStores() {
@@ -37,7 +40,10 @@ class App extends Component {
           <Router basename={process.env.PUBLIC_URL}>
             <Header />
             <Route path={"/login"} component={Login} />
-            <PrivateRoute path={"/"} exact component={Home} authenticated={!!user} />
+            <Switch>
+              <Redirect exact from='/' to='/archives'/>
+              <PrivateRoute path={"/archives/:current?"} component={Archives} authenticated={!!user} />
+            </Switch>
           </Router>
         )}
       </article>
