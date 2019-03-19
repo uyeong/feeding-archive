@@ -1,0 +1,52 @@
+@import "../../styles/variables";
+
+.wrapper {
+  padding: $v-spacing-md $h-spacing-md;
+  :global {
+    .am-list-body {
+      &:before,
+      &:after {
+        display: none !important;
+      }
+      background: transparent !important;
+      border: none;
+    }
+    .am-list-item {
+      box-shadow: rgba(0, 0, 0, .02) 0 0 0 1px, rgba(0, 0, 0, .04) 0 6px 20px 0, rgba(0, 0, 0, 0.07) 0 1px 3px 0;
+    }
+    .am-list-header {
+      padding-top: 14px;
+      padding-left: 4px;
+    }
+    .am-list-line {
+      border-bottom: none !important;
+    }
+    .am-list-line:after {
+      display: none !important;
+    }
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover,
+    input:-webkit-autofill:focus,
+    input:-webkit-autofill:active {
+      transition: background-color 5000s ease-in-out 0s;
+    }
+  }
+  .title {
+    margin: 30px 0 21px 0;
+    font-size: 18px;
+    text-align: center;
+    line-height: 1.4;
+    color: $grey-8;
+  }
+  .error {
+    margin: 0;
+    padding: 6px 4px 0;
+    font-size: $font-size-caption-sm;
+    line-height: 12px;
+    min-height: 12px;
+    color: $red-5;
+  }
+  .submit {
+    margin-top: $h-spacing-lg;
+  }
+}

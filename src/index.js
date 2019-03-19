@@ -1,26 +1,12 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import Home from './Home';
-import Main from './Main';
+import { render } from 'react-dom';
+import firebase from 'firebase/app';
+import * as serviceWorker from './serviceWorker';
+import config from './config';
+import App from './containers/App';
+import 'firebase/auth';
 import './style.scss';
 
-ReactDOM.render(
-  <Router>
-    <div>
-      <nav>
-        <ul>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/main/">Main</Link>
-          </li>
-        </ul>
-      </nav>
-      <Route path="/" exact component={Home} />
-      <Route path="/main/" component={Main} />
-    </div>
-  </Router>,
-  document.getElementById('root')
-);
+firebase.initializeApp(config);
+render(<App />, document.getElementById('root'));
+serviceWorker.register();

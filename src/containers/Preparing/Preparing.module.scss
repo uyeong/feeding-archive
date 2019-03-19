@@ -1,0 +1,42 @@
+@import "../../styles/variables";
+
+.wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 1;
+  z-index: 9999;
+  .dimmed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: $white;
+  }
+  .loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 60px;
+    height: 60px;
+    transform: translate(-50%, -50%) scale(1);
+    background-image: url("../../images/img-bottle.png");
+    background-size: 100%;
+    background-position: 50%;
+    animation: bong-bong 2s infinite;
+  }
+}
+
+:global(.preparing-leave.preparing-leave-active) {
+  opacity: 0.01;
+  transition: opacity 300ms ease-in;
+}
+
+@keyframes bong-bong {
+  0% { transform: translate(-50%, -50%) scale(1); }
+  50% { transform: translate(-50%, -50%) scale(1.2); }
+  100% { transform: translate(-50%, -50%) scale(1); }
+}
