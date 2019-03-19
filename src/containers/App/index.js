@@ -8,6 +8,7 @@ import store from '../../store';
 import Header from '../../components/Header';
 import Preparing from '../Preparing';
 import Login from '../Login';
+import Editor from '../Editor';
 import Archives from "../Archives";
 
 momentTimezone.tz.setDefault('Asia/Seoul');
@@ -42,6 +43,7 @@ class App extends Component {
             <Route path={"/login"} component={Login} />
             <Switch>
               <Redirect exact from='/' to='/archives'/>
+              <PrivateRoute path={"/archives/:current/(write|edit)/:row?"} component={Editor} authenticated={!!user} />
               <PrivateRoute path={"/archives/:current?"} component={Archives} authenticated={!!user} />
             </Switch>
           </Router>
