@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import actions from '../../actions';
 import store from '../../store';
+import Header from '../../components/Header';
 import Preparing from '../Preparing';
 import Home from "../Home";
 import Login from '../Login';
@@ -34,6 +35,7 @@ class App extends Component {
         </ReactCSSTransitionGroup>
         {user !== undefined && (
           <Router basename={process.env.PUBLIC_URL}>
+            <Header />
             <Route path={"/login"} component={Login} />
             <PrivateRoute path={"/"} exact component={Home} authenticated={!!user} />
           </Router>
