@@ -5,6 +5,7 @@ import * as serviceWorker from './serviceWorker';
 import config from './config';
 import App from './containers/App';
 import 'firebase/auth';
+import 'firebase/firestore';
 import './style.scss';
 
 firebase.initializeApp(config);

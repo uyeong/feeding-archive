@@ -10,8 +10,10 @@ class Store extends ReduceStore {
   getInitialState() {
     return {
       user: undefined,
+      archives: undefined,
       processing: {
-        login: false
+        login: false,
+        archives: false
       }
     };
   }
@@ -29,6 +31,17 @@ class Store extends ReduceStore {
           break;
         case ActionTypes.LOGIN_FAIL:
           draft.processing.login = false;
+          break;
+        case ActionTypes.LOAD_ARCHIVES_START:
+          draft.processing.archives = true;
+          break;
+        case ActionTypes.LOAD_ARCHIVES_SUCCESS:
+          draft.processing.archives = false;
+          draft.archives = action.archives;
+          break;
+        case ActionTypes.LOAD_ARCHIVES_FAIL:
+          draft.processing.archives = false;
+          draft.archives = undefined;
           break;
         default:
       }
