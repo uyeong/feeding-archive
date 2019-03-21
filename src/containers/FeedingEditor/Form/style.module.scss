@@ -1,0 +1,19 @@
+.wrapper {
+  .form-list {
+    margin: 9px 8px;
+    border-radius: 2px;
+    overflow: hidden;
+    box-shadow: rgba(0, 0, 0, .02) 0 0 0 1px, rgba(0, 0, 0, .04) 0 6px 20px 0, rgba(0, 0, 0, 0.07) 0 1px 3px 0;
+  }
+  .button-group {
+    display: flex;
+    margin: 8px;
+  }
+  .submit {
+    flex: 1;
+    margin-right: 8px;
+    &:last-child {
+      margin: 0;
+    }
+  }
+}

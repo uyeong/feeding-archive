@@ -10,10 +10,11 @@ class Store extends ReduceStore {
   getInitialState() {
     return {
       user: undefined,
-      archives: undefined,
+      feedings: undefined,
       processing: {
         login: false,
-        archives: false
+        feedings: false,
+        feeding: false
       }
     };
   }
@@ -32,16 +33,23 @@ class Store extends ReduceStore {
         case ActionTypes.LOGIN_FAIL:
           draft.processing.login = false;
           break;
-        case ActionTypes.LOAD_ARCHIVES_START:
-          draft.processing.archives = true;
+        case ActionTypes.LOAD_FEEDINGS_START:
+          draft.processing.feedings = true;
           break;
-        case ActionTypes.LOAD_ARCHIVES_SUCCESS:
-          draft.processing.archives = false;
-          draft.archives = action.archives;
+        case ActionTypes.LOAD_FEEDINGS_SUCCESS:
+          draft.processing.feedings = false;
+          draft.feedings = action.feedings;
           break;
-        case ActionTypes.LOAD_ARCHIVES_FAIL:
-          draft.processing.archives = false;
-          draft.archives = undefined;
+        case ActionTypes.LOAD_FEEDINGS_FAIL:
+          draft.processing.feedings = false;
+          draft.feedings = undefined;
+          break;
+        case ActionTypes.ADD_FEEDING_START:
+          draft.processing.feeding = true;
+          break;
+        case ActionTypes.ADD_FEEDING_SUCCESS:
+        case ActionTypes.ADD_FEEDING_FAIL:
+          draft.processing.feeding = false;
           break;
         default:
       }

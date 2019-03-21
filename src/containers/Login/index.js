@@ -5,7 +5,7 @@ import { List, InputItem, Button, Toast } from 'antd-mobile';
 import { createForm } from 'rc-form';
 import store from '../../store';
 import actions from '../../actions';
-import css from './Login.module.scss';
+import css from './style.module.scss';
 
 class Login extends Component {
   static getStores() {

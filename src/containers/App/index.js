@@ -2,16 +2,14 @@ import React, { Component } from 'react';
 import { Container } from 'flux/utils';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
-import momentTimezone from 'moment-timezone';
+import moment from 'moment';
 import actions from '../../actions';
 import store from '../../store';
 import Header from '../../components/Header';
 import Preparing from '../Preparing';
 import Login from '../Login';
-import Editor from '../Editor';
-import Archives from "../Archives";
-
-momentTimezone.tz.setDefault('Asia/Seoul');
+import Editor from '../FeedingEditor';
+import Feedings from "../FeedingList";
 
 class App extends Component {
   static getStores() {
@@ -28,6 +26,7 @@ class App extends Component {
 
   render() {
     const { user } = this.state;
+    const isAuthenticated = !!user;
     return (
       <article>
         <ReactCSSTransitionGroup
@@ -42,9 +41,21 @@ class App extends Component {
             <Header />
             <Route path={"/login"} component={Login} />
             <Switch>
-              <Redirect exact from='/' to='/archives'/>
-              <PrivateRoute path={"/archives/:current/(write|edit)/:row?"} component={Editor} authenticated={!!user} />
-              <PrivateRoute path={"/archives/:current?"} component={Archives} authenticated={!!user} />
+              <Redirect
+                exact
+                from='/'
+                to={`/feedings/${moment().format('YYYY-MM-DD')}`}
+              />
+              <PrivateRoute
+                path={"/feedings/:current/(write|edit)/:id?"}
+                component={Editor}
+                authenticated={isAuthenticated}
+              />
+              <PrivateRoute
+                path={"/feedings/:current?"}
+                component={Feedings}
+                authenticated={isAuthenticated}
+              />
             </Switch>
           </Router>
         )}

@@ -1,5 +1,5 @@
 import React from 'react';
-import css from './Preparing.module.scss';
+import css from './style.module.scss';
 
 const Preparing = () => (
   <section className={css.wrapper}>

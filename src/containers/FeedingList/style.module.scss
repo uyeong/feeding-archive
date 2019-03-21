@@ -75,9 +75,24 @@
       border-bottom: none;
       padding-bottom: 11px;
     }
-    a {
+    a,
+    button {
       color: $grey-8;
       text-decoration: underline;
+      padding: 0;
+      border: 0;
+      background: transparent;
+    }
+  }
+  .table tr {
+    &:global(.feeding-enter),
+    &:global(.feeding-update) {
+      background: #ffc069;
+    }
+    &:global(.feeding-enter.feeding-enter-active),
+    &:global(.feeding-update.feeding-update-active) {
+      background: #ffffff;
+      transition: background 500ms ease-in;
     }
   }
 }

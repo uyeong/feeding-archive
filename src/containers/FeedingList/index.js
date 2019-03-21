@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { Container } from 'flux/utils';
 import moment from 'moment';
 import { Button } from 'antd-mobile';
@@ -7,9 +8,9 @@ import store from '../../store';
 import actions from '../../actions';
 import imgCart from '../../images/img-cart.svg';
 import imgBox from '../../images/img-box.svg';
-import css from './Archives.module.scss';
+import css from './style.module.scss';
 
-class Archives extends Component {
+class FeedingList extends Component {
   static getStores() {
     return [store];
   }
@@ -19,77 +20,84 @@ class Archives extends Component {
   }
 
   componentDidMount() {
-    setTimeout(() => this.requestArchives())
+    setTimeout(() => this.listenFeedings());
   }
 
-  componentDidUpdate(prevProps, prevState, snapshot) {
+  componentDidUpdate(prevProps, prevState) {
     const currentParams = this.props.match.params;
     const prevParams = prevProps.match.params;
     if (currentParams.current !== prevParams.current) {
-      this.requestArchives();
+      this.listenFeedings();
     }
   }
 
   render() {
+    const { feedings } = this.state;
     const { current = moment().format('YYYY-MM-DD') }  = this.props.match.params;
     const prev = moment(current).subtract(1, 'days').format('YYYY-MM-DD');
     const next = moment(current).add(1, 'days').format('YYYY-MM-DD');
-    const archives = this.state.archives;
     return (
       <section className={css.wrapper}>
         <div className={css.header}>
           <h1 className={css.title}>{current}</h1>
           <nav className={css.navigation}>
-            <Link to={`/archives/${prev}`}><span className="blind">뒤로</span></Link>
-            <Link to={`/archives/${next}`}><span className="blind">앞으로</span></Link>
+            <Link to={`/feedings/${prev}`}><span className="blind">뒤로</span></Link>
+            <Link to={`/feedings/${next}`}><span className="blind">앞으로</span></Link>
           </nav>
         </div>
         <Button
           className={css.write}
-          href={`/archives/${current}/write`}
+          href={`/feedings/${current}/write`}
           type="primary"
           size="large"
-          onClick={this.onClickWrite}
+          onClick={this.onClickWriteFeeding}
         >
           기록하기
         </Button>
         <div className={css.archive}>
-          {archives === undefined && (
+          {feedings === undefined && (
             <div className={css.guide}>
               <img src={imgCart} alt="" />
               <p>데이터를 가져오는 중입니다.</p>
             </div>
           )}
-          {archives && archives.length === 0 && (
+          {feedings && feedings.length === 0 && (
             <div className={css.guide}>
               <img src={imgBox} alt="" />
               <p>기록이 없습니다.</p>
             </div>
           )}
-          {archives && archives.length > 0 && (
+          {feedings && feedings.length > 0 && (
             <table className={css.table}>
               <thead>
               <tr>
                 <th>시간</th>
                 <th>종류</th>
                 <th>먹은량</th>
-                <th></th>
+                <th />
               </tr>
               </thead>
-              <tbody>
-              {archives.map(({ date, kind, volume }) => (
-                <tr key={date}>
-                  <td>{moment(date).format('HH:mm')}</td>
-                  <td>{kind}</td>
-                  <td>{volume > 0 ? `${volume} ml` : '-'}</td>
-                  <td>
-                    <Link to={`/archives/${current}/edit/${date}`}>수정</Link>
-                    <span> / </span>
-                    <a href="#" role="button">삭제</a>
-                  </td>
-                </tr>
-              ))}
-              </tbody>
+              <ReactCSSTransitionGroup
+                component="tbody"
+                transitionName="feeding"
+                transitionEnterTimeout={500}
+                transitionLeave={false}
+              >
+                {feedings.map(({ id, date, kind, volume }) => (
+                  <tr key={id}>
+                    <td>{moment(date).format('HH:mm')}</td>
+                    <td>{kind}</td>
+                    <td>{volume > 0 ? `${volume} ml` : '-'}</td>
+                    <td>
+                      <Link to={`/feedings/${current}/edit/${id}`}>수정</Link>
+                      <span> / </span>
+                      <button onClick={this.onClickRemoveFeeding.bind(null, id)}>
+                        삭제
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </ReactCSSTransitionGroup>
             </table>
           )}
         </div>
@@ -97,17 +105,23 @@ class Archives extends Component {
     )
   }
 
-  requestArchives() {
-    const userId = this.state.user.uid;
-    const current = this.props.match.params.current;
-    actions.loadArchives(userId, current);
+  listenFeedings() {
+    const { uid } = this.state.user;
+    const { current } = this.props.match.params;
+    actions.listenFeedings(uid, current);
   }
 
-  onClickWrite = (event) => {
+  onClickWriteFeeding = (event) => {
     event.preventDefault();
     const url = event.currentTarget.getAttribute('href');
     this.props.history.push(url);
   };
+
+  onClickRemoveFeeding = (id) => {
+    const { uid } = this.state.user;
+    const { current } = this.props.match.params;
+    actions.removeFeeding(uid, id, current);
+  }
 }
 
-export default Container.create(Archives);
+export default Container.create(FeedingList);
