@@ -1,7 +1,7 @@
 @import "../../styles/variables";
 
 .wrapper {
-  padding: 16px 8px 9px;
+  padding: 16px 8px 56px;
   .header {
     position: relative;
     display: block;
@@ -35,7 +35,12 @@
     background-image: url("../../images/right-arrow.svg");
   }
   .write {
-    margin-top: 9px;
+    position: fixed !important;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    box-shadow: 0 0 8px rgba(0, 0, 0, .2);
+    border-radius: 0;
   }
   .archive {
     margin: 8px 8px 0;
