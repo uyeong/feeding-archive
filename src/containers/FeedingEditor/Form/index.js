@@ -75,7 +75,7 @@ export default class Form extends Component {
             moneyKeyboardWrapProps={{ onTouchStart: e => e.preventDefault() }}
             locale={{ confirmLabel : '저장' }}
             disabled={loading}
-            onBlur={this.onBlurVolume}
+            onChange={this.onChangeVolume}
           >
             먹은량(ml)
           </InputItem>
@@ -115,7 +115,7 @@ export default class Form extends Component {
     this.setState({ kind });
   };
 
-  onBlurVolume = (volume) => {
+  onChangeVolume = (volume) => {
     this.setState({ volume });
   };
 
