@@ -53,6 +53,7 @@
   }
   .stats {
     flex: 1;
+    color: $grey-8;
     h3 {
       margin: 5px 0 0;
     }
@@ -60,6 +61,7 @@
       margin: 14px 0 0 ;
       padding: 0;
       list-style: none;
+      color: $grey-7;
     }
     li {
       position: relative;
