@@ -1,4 +1,4 @@
-import firebase from 'firebase/app';
+import firebase, { store } from './init';
 import moment from 'moment';
 
 function generateUID() {
@@ -10,8 +10,7 @@ function generateUID() {
 
 export default {
   listen(userId, date, callback) {
-    const db = firebase.firestore();
-    return db.collection(`users/${userId}/feedings`)
+    return store.collection(`users/${userId}/feedings`)
       .doc(date)
       .onSnapshot(function(doc) {
         const data = doc.data() || {};
@@ -27,26 +26,20 @@ export default {
   },
 
   async create(userId, { date, kind, volume }) {
-    const db = firebase.firestore();
-    const base = moment(date).format('YYYY-MM-DD');
-    await db.collection(`users/${userId}/feedings`).doc(base).set({
-      [generateUID()]: [ date, kind, volume ]
-    }, { merge: true });
+    await store.collection(`users/${userId}/feedings`)
+      .doc(moment(date).format('YYYY-MM-DD'))
+      .set({ [generateUID()]: [ date, kind, volume ] }, { merge: true });
   },
 
   async update(userId, feedingId, { date, kind, volume }) {
-    const db = firebase.firestore();
-    const base = moment(date).format('YYYY-MM-DD');
-    await db.collection(`users/${userId}/feedings`).doc(base).set({
-      [feedingId]: [ date, kind, volume ]
-    }, { merge: true });
+    await store.collection(`users/${userId}/feedings`)
+      .doc(moment(date).format('YYYY-MM-DD'))
+      .set({ [feedingId]: [ date, kind, volume ] }, { merge: true });
   },
 
-  async remove(userId, feedingId, date) {
-    const db = firebase.firestore();
-    const base = moment(date).format('YYYY-MM-DD');
-    await db.collection(`users/${userId}/feedings`).doc(base).set({
-      [feedingId]: firebase.firestore.FieldValue.delete()
-    }, { merge: true });
+  async remove(userId, { id, date }) {
+    await store.collection(`users/${userId}/feedings`)
+      .doc(moment(date).format('YYYY-MM-DD'))
+      .set({ [id]: firebase.firestore.FieldValue.delete() }, { merge: true });
   }
 }

@@ -4,8 +4,8 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { Container } from 'flux/utils';
 import moment from 'moment';
 import { Button } from 'antd-mobile';
-import store from '../../store';
-import actions from '../../actions';
+import store from '../../flux/store';
+import actions from '../../flux/actions';
 import imgCart from '../../images/img-cart.svg';
 import imgBox from '../../images/img-box.svg';
 import css from './style.module.scss';
@@ -83,15 +83,15 @@ class FeedingList extends Component {
                 transitionEnterTimeout={500}
                 transitionLeave={false}
               >
-                {feedings.map(({ id, date, kind, volume }) => (
-                  <tr key={id}>
-                    <td>{moment(date).format('HH:mm')}</td>
-                    <td>{kind}</td>
-                    <td>{volume > 0 ? `${volume} ml` : '-'}</td>
+                {feedings.map((feeding) => (
+                  <tr key={feeding.id}>
+                    <td>{moment(feeding.date).format('HH:mm')}</td>
+                    <td>{feeding.kind}</td>
+                    <td>{feeding.volume > 0 ? `${feeding.volume} ml` : '-'}</td>
                     <td>
-                      <Link to={`/feedings/${current}/edit/${id}`}>수정</Link>
+                      <Link to={`/feedings/${current}/edit/${feeding.id}`}>수정</Link>
                       <span> / </span>
-                      <button onClick={this.onClickRemoveFeeding.bind(null, id)}>
+                      <button onClick={this.onClickRemoveFeeding.bind(null, feeding)}>
                         삭제
                       </button>
                     </td>
@@ -117,10 +117,9 @@ class FeedingList extends Component {
     this.props.history.push(url);
   };
 
-  onClickRemoveFeeding = (id) => {
+  onClickRemoveFeeding = (feeding) => {
     const { uid } = this.state.user;
-    const { current } = this.props.match.params;
-    actions.removeFeeding(uid, id, current);
+    actions.removeFeeding(uid, feeding);
   }
 }
 

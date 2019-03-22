@@ -13,7 +13,6 @@ class Store extends ReduceStore {
       feedings: undefined,
       processing: {
         login: false,
-        feedings: false,
         feeding: false
       }
     };
@@ -22,33 +21,24 @@ class Store extends ReduceStore {
   reduce(state, action) {
     return produce(state, draft => {
       switch (action.type) {
-        case ActionTypes.PREPARED:
-        case ActionTypes.LOGIN_SUCCESS:
+        case ActionTypes.UPDATE_USER:
           draft.user = action.user;
+          break;
+        case ActionTypes.UPDATE_FEEDINGS:
+          draft.feedings = action.feedings;
+          break;
+        case ActionTypes.LOGIN_SUCCESS:
+        case ActionTypes.LOGIN_FAIL:
           draft.processing.login = false;
           break;
         case ActionTypes.LOGIN_START:
           draft.processing.login = true;
           break;
-        case ActionTypes.LOGIN_FAIL:
-          draft.processing.login = false;
-          break;
-        case ActionTypes.LOAD_FEEDINGS_START:
-          draft.processing.feedings = true;
-          break;
-        case ActionTypes.LOAD_FEEDINGS_SUCCESS:
-          draft.processing.feedings = false;
-          draft.feedings = action.feedings;
-          break;
-        case ActionTypes.LOAD_FEEDINGS_FAIL:
-          draft.processing.feedings = false;
-          draft.feedings = undefined;
-          break;
-        case ActionTypes.ADD_FEEDING_START:
+        case ActionTypes.UPDATE_FEEDING_START:
           draft.processing.feeding = true;
           break;
-        case ActionTypes.ADD_FEEDING_SUCCESS:
-        case ActionTypes.ADD_FEEDING_FAIL:
+        case ActionTypes.UPDATE_FEEDING_SUCCESS:
+        case ActionTypes.UPDATE_FEEDING_FAIL:
           draft.processing.feeding = false;
           break;
         default:

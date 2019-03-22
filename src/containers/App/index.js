@@ -3,8 +3,8 @@ import { Container } from 'flux/utils';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import moment from 'moment';
-import actions from '../../actions';
-import store from '../../store';
+import actions from '../../flux/actions';
+import store from '../../flux/store';
 import Header from '../../components/Header';
 import Preparing from '../Preparing';
 import Login from '../Login';
@@ -21,7 +21,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    actions.prepare();
+    actions.listenUser();
   }
 
   render() {

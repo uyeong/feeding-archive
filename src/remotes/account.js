@@ -1,21 +1,18 @@
-import firebase from 'firebase/app';
+import firebase, { auth } from './init';
 
 export default {
-  fetch() {
-    return new Promise((resolve) => {
-      const unsubscribe = firebase.auth().onAuthStateChanged(user => {
-        resolve(user);
-        unsubscribe();
-      });
+  listen(callback) {
+    auth.onAuthStateChanged(user => {
+      callback(user)
     });
   },
 
   async login(email, password) {
-    await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
-    await firebase.auth().signInWithEmailAndPassword(email, password);
+    await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+    await auth.signInWithEmailAndPassword(email, password);
   },
 
   logout() {
-    return firebase.auth().signOut();
+    return auth.signOut();
   }
 }

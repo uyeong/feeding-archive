@@ -3,8 +3,8 @@ import { Container } from 'flux/utils';
 import { Redirect } from "react-router-dom";
 import { List, InputItem, Button, Toast } from 'antd-mobile';
 import { createForm } from 'rc-form';
-import store from '../../store';
-import actions from '../../actions';
+import store from '../../flux/store';
+import actions from '../../flux/actions';
 import css from './style.module.scss';
 
 class Login extends Component {
@@ -84,6 +84,7 @@ class Login extends Component {
         try {
           await actions.login(email, password);
         } catch (error) {
+          console.log(error);
           Toast.info('로그인에 실패했습니다.', 2);
         }
       }

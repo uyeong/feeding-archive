@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Container } from 'flux/utils';
-import store from '../../store';
-import actions from '../../actions';
+import store from '../../flux/store';
+import actions from '../../flux/actions';
 import Form from './Form';
 import css from './style.module.scss';
 
