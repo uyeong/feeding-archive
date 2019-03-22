@@ -26,7 +26,7 @@ export default class Form extends Component {
           <DatePicker
             title="시간"
             mode="time"
-            format={d => moment(d).format('H시 m분')}
+            format={d => moment(d).format('HH:mm')}
             value={date && new Date(date)}
             locale={{
               okText: '확인',
