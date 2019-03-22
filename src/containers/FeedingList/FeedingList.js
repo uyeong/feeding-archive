@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { Container } from 'flux/utils';
 import moment from 'moment';
 import { Button } from 'antd-mobile';
 import store from '../../flux/store';
 import actions from '../../flux/actions';
-import imgCart from '../../images/img-cart.svg';
-import imgBox from '../../images/img-box.svg';
+import FeedingTable from './FeedingTable';
 import css from './FeedingList.module.scss';
 
 class FeedingList extends Component {
@@ -33,7 +31,7 @@ class FeedingList extends Component {
 
   render() {
     const { feedings } = this.state;
-    const { current = moment().format('YYYY-MM-DD') }  = this.props.match.params;
+    const { current } = this.props.match.params;
     const prev = moment(current).subtract(1, 'days').format('YYYY-MM-DD');
     const next = moment(current).add(1, 'days').format('YYYY-MM-DD');
     return (
@@ -54,55 +52,7 @@ class FeedingList extends Component {
         >
           기록하기
         </Button>
-        <div className={css.archive}>
-          {feedings === undefined && (
-            <div className={css.guide}>
-              <img src={imgCart} alt="" />
-              <p>데이터를 가져오는 중입니다.</p>
-            </div>
-          )}
-          {feedings && feedings.length === 0 && (
-            <div className={css.guide}>
-              <img src={imgBox} alt="" />
-              <p>기록이 없습니다.</p>
-            </div>
-          )}
-          {feedings && feedings.length > 0 && (
-            <table className={css.table}>
-              <thead>
-              <tr>
-                <th>시간</th>
-                <th>간격</th>
-                <th>종류</th>
-                <th>먹은량</th>
-                <th />
-              </tr>
-              </thead>
-              <ReactCSSTransitionGroup
-                component="tbody"
-                transitionName="feeding"
-                transitionEnterTimeout={500}
-                transitionLeave={false}
-              >
-                {feedings.map((feeding, index) => (
-                  <tr key={feeding.id}>
-                    <td>{moment(feeding.date).format('HH:mm')}</td>
-                    <td>{index > 0 ? (moment.utc(moment(feeding.date).diff(feedings[index - 1].date)).format('HH:mm')) : '-'}</td>
-                    <td>{feeding.kind}</td>
-                    <td>{feeding.volume > 0 ? `${feeding.volume} ml` : '-'}</td>
-                    <td>
-                      <Link to={`/feedings/${current}/edit/${feeding.id}`}>수정</Link>
-                      <span> / </span>
-                      <button onClick={this.onClickRemoveFeeding.bind(null, feeding)}>
-                        삭제
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </ReactCSSTransitionGroup>
-            </table>
-          )}
-        </div>
+        <FeedingTable current={current} feedings={feedings} onRemove={this.onRemoveFeeding} />
       </section>
     )
   }
@@ -119,7 +69,7 @@ class FeedingList extends Component {
     this.props.history.push(url);
   };
 
-  onClickRemoveFeeding = (feeding) => {
+  onRemoveFeeding = (feeding) => {
     const { uid } = this.state.user;
     actions.removeFeeding(uid, feeding);
   }

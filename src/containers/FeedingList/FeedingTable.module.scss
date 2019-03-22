@@ -1,0 +1,60 @@
+@import "../../styles/variables";
+
+.wrapper {
+  margin: 8px 8px 0;
+  background: $white;
+  border-radius: 2px;
+  overflow: hidden;
+  box-shadow: rgba(0, 0, 0, .02) 0 0 0 1px, rgba(0, 0, 0, .04) 0 6px 20px 0, rgba(0, 0, 0, 0.07) 0 1px 3px 0;
+  .guide {
+    padding: 20px;
+    text-align: center;
+    img {
+      width: 100px;
+    }
+    p {
+      margin: 14px 0 0;
+      font-size: 16px;
+    }
+  }
+  .table {
+    width: 100%;
+    box-sizing: border-box;
+    border-collapse: collapse;
+    th, td {
+      border-bottom: 1px solid $grey-5;
+      padding: 8px;
+      text-align: center;
+    }
+    th {
+      height: 20px;
+      color: $grey-7;
+    }
+    td {
+      color: $grey-8;
+    }
+    tbody tr:last-child td {
+      border-bottom: none;
+      padding-bottom: 11px;
+    }
+    a,
+    button {
+      color: $grey-8;
+      text-decoration: underline;
+      padding: 0;
+      border: 0;
+      background: transparent;
+    }
+  }
+  .table tr {
+    &:global(.feeding-enter),
+    &:global(.feeding-update) {
+      background: #fff2e8;
+    }
+    &:global(.feeding-enter.feeding-enter-active),
+    &:global(.feeding-update.feeding-update-active) {
+      background: #ffffff;
+      transition: background 500ms ease-in;
+    }
+  }
+}

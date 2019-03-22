@@ -28,6 +28,7 @@ class App extends Component {
   render() {
     const { user } = this.state;
     const isAuthenticated = !!user;
+    const today = moment().format('YYYY-MM-DD');
     return (
       <article>
         <ReactCSSTransitionGroup
@@ -45,7 +46,12 @@ class App extends Component {
               <Redirect
                 exact
                 from='/'
-                to={`/feedings/${moment().format('YYYY-MM-DD')}`}
+                to={`/feedings/${today}`}
+              />
+              <Redirect
+                exact
+                from='/feedings/'
+                to={`/feedings/${today}`}
               />
               <PrivateRoute
                 path={"/feedings/:current/(write|edit)/:id?"}
