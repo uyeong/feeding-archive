@@ -54,13 +54,6 @@ export default {
   },
 
   async removeFeeding(userId, feeding) {
-    dispatch({ type: ActionTypes.UPDATE_FEEDING_START });
-    try {
-      await feedings.remove(userId, feeding);
-      dispatch({ type: ActionTypes.UPDATE_FEEDING_SUCCESS });
-    } catch (error) {
-      dispatch({ type: ActionTypes.UPDATE_FEEDING_FAIL });
-      throw error;
-    }
+    await feedings.remove(userId, feeding);
   }
 };
