@@ -7,7 +7,8 @@ import imgBox from '../../images/img-box.svg';
 import css from './FeedingTable.module.scss';
 
 const FeedingTable = ({ current, feedings, onRemove }) => (
-  <div className={css.wrapper}>
+  <section className={css.wrapper}>
+    <h2 className="blind">기록표</h2>
     {feedings === undefined && (
       <div className={css.guide}>
         <img src={imgCart} alt="" />
@@ -55,7 +56,7 @@ const FeedingTable = ({ current, feedings, onRemove }) => (
         </ReactCSSTransitionGroup>
       </table>
     )}
-  </div>
+  </section>
 );
 
 export default FeedingTable;

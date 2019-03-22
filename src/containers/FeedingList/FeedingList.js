@@ -5,6 +5,7 @@ import moment from 'moment';
 import { Button } from 'antd-mobile';
 import store from '../../flux/store';
 import actions from '../../flux/actions';
+import FeedingStats from './FeedingStats';
 import FeedingTable from './FeedingTable';
 import css from './FeedingList.module.scss';
 
@@ -35,7 +36,7 @@ class FeedingList extends Component {
     const prev = moment(current).subtract(1, 'days').format('YYYY-MM-DD');
     const next = moment(current).add(1, 'days').format('YYYY-MM-DD');
     return (
-      <section className={css.wrapper}>
+      <article className={css.wrapper}>
         <div className={css.header}>
           <h1 className={css.title}>{current}</h1>
           <nav className={css.navigation}>
@@ -43,6 +44,8 @@ class FeedingList extends Component {
             <Link to={`/feedings/${next}`}><span className="blind">앞으로</span></Link>
           </nav>
         </div>
+        <FeedingStats feedings={feedings} />
+        <FeedingTable current={current} feedings={feedings} onRemove={this.onRemoveFeeding} />
         <Button
           className={css.write}
           href={`/feedings/${current}/write`}
@@ -52,8 +55,7 @@ class FeedingList extends Component {
         >
           기록하기
         </Button>
-        <FeedingTable current={current} feedings={feedings} onRemove={this.onRemoveFeeding} />
-      </section>
+      </article>
     )
   }
 

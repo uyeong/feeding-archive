@@ -128,7 +128,11 @@ export default class Form extends Component {
   onClickSubmit = () => {
     const { date, kind, volume = 0 } = this.state;
     if (date && kind && this.props.onSubmit) {
-      this.props.onSubmit({ date, kind, volume });
+      this.props.onSubmit({
+        date,
+        kind,
+        volume: parseInt(volume, 10)
+      });
     }
   };
 }
