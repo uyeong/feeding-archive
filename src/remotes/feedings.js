@@ -21,7 +21,7 @@ export default {
           kind: data[key][1],
           volume: data[key][2]
         }));
-        feedings.sort((a, b) => a.date < b.date ? 1 : -1);
+        feedings.sort((a, b) => a.date - b.date);
         callback(feedings);
       });
   },
