@@ -72,6 +72,7 @@ class FeedingList extends Component {
               <thead>
               <tr>
                 <th>시간</th>
+                <th>간격</th>
                 <th>종류</th>
                 <th>먹은량</th>
                 <th />
@@ -83,9 +84,10 @@ class FeedingList extends Component {
                 transitionEnterTimeout={500}
                 transitionLeave={false}
               >
-                {feedings.map((feeding) => (
+                {feedings.map((feeding, index) => (
                   <tr key={feeding.id}>
                     <td>{moment(feeding.date).format('HH:mm')}</td>
+                    <td>{index > 0 ? (moment.utc(moment(feeding.date).diff(feedings[index - 1].date)).format('HH:mm')) : '-'}</td>
                     <td>{feeding.kind}</td>
                     <td>{feeding.volume > 0 ? `${feeding.volume} ml` : '-'}</td>
                     <td>

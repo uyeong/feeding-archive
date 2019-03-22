@@ -8,20 +8,22 @@ function generateUID() {
   return now + random;
 }
 
+function toFeedings(data) {
+  const feedings = Object.keys(data).map(key => ({
+    id: key,
+    date: data[key][0],
+    kind: data[key][1],
+    volume: data[key][2]
+  }));
+  return feedings.sort((a, b) => a.date - b.date);
+}
+
 export default {
   listen(userId, date, callback) {
     return store.collection(`users/${userId}/feedings`)
       .doc(date)
       .onSnapshot(function(doc) {
-        const data = doc.data() || {};
-        const feedings = Object.keys(data).map(key => ({
-          id: key,
-          date: data[key][0],
-          kind: data[key][1],
-          volume: data[key][2]
-        }));
-        feedings.sort((a, b) => a.date - b.date);
-        callback(feedings);
+        callback(toFeedings(doc.data() || {}));
       });
   },
 
