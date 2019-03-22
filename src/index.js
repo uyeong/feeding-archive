@@ -4,7 +4,6 @@ import moment from 'moment-timezone';
 import * as serviceWorker from './serviceWorker';
 import App from './containers/App';
 import './remotes/init';
-import './style.scss';
 
 moment.tz.setDefault('Asia/Seoul');
 render(<App />, document.getElementById('root'));

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Button, DatePicker, InputItem, List, Picker } from "antd-mobile";
 import moment from 'moment';
-import css from "./style.module.scss";
+import css from "./Form.module.scss";
 
 export default class Form extends Component {
   state = {
