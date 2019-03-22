@@ -38,7 +38,6 @@
   }
   .archive {
     margin: 8px 8px 0;
-    padding: 0 8px;
     background: $white;
     border-radius: 2px;
     overflow: hidden;
@@ -87,7 +86,7 @@
   .table tr {
     &:global(.feeding-enter),
     &:global(.feeding-update) {
-      background: #ffc069;
+      background: #fff2e8;
     }
     &:global(.feeding-enter.feeding-enter-active),
     &:global(.feeding-update.feeding-update-active) {
