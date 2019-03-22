@@ -32,7 +32,8 @@ class FeedingEditor extends Component {
     const { target, processing: { feeding } } = this.state;
     const { current } = this.props.match.params;
     return (
-      <section className={css.wrapper}>
+      <article className={css.wrapper}>
+        <h1 className="blind">기록하기</h1>
         <div className={css['input-wrap']}>
           <Form
             date={current}
@@ -42,7 +43,7 @@ class FeedingEditor extends Component {
             onSubmit={this.onSubmit}
           />
         </div>
-      </section>
+      </article>
     );
   }
 

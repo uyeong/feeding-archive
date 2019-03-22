@@ -30,7 +30,7 @@ class App extends Component {
     const isAuthenticated = !!user;
     const today = moment().format('YYYY-MM-DD');
     return (
-      <article>
+      <div>
         <ReactCSSTransitionGroup
           transitionName="preparing"
           transitionEnterTimeout={0}
@@ -66,7 +66,7 @@ class App extends Component {
             </Switch>
           </Router>
         )}
-      </article>
+      </div>
     )
   }
 }

@@ -22,7 +22,7 @@ class Login extends Component {
     let { user, processing } = this.state;
     let errors;
     return (
-      <section className={css.wrapper}>
+      <article className={css.wrapper}>
         {!user ? (
           <>
             <h1 className={css.title}>
@@ -73,7 +73,7 @@ class Login extends Component {
         ) : (
           <Redirect to={from} />
         )}
-      </section>
+      </article>
     )
   }
 
