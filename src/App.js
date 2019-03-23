@@ -3,13 +3,13 @@ import { Container } from 'flux/utils';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import moment from 'moment';
-import actions from '../../flux/actions';
-import store from '../../flux/store';
-import Header from '../../components/Header';
-import Preparing from '../../components/Preparing';
-import Login from '../Login';
-import Editor from '../FeedingEditor';
-import Feedings from "../FeedingList";
+import actions from './flux/actions';
+import store from './flux/store';
+import Header from './components/Header';
+import Preparing from './components/Preparing';
+import Login from './containers/Login';
+import Editor from './containers/FeedingEditor';
+import Feedings from "./containers/FeedingList";
 import './App.scss';
 
 class App extends Component {

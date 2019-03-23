@@ -68,7 +68,7 @@ export default class Form extends Component {
           </Picker>
           <InputItem
             type="money"
-            defaultValue={volume || undefined}
+            value={volume || undefined}
             placeholder="먹은량을 입력하세요."
             clear
             moneyKeyboardAlign="left"

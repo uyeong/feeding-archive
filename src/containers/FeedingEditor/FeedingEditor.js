@@ -5,19 +5,15 @@ import actions from '../../flux/actions';
 import Form from './Form';
 import css from './FeedingEditor.module.scss';
 
+let target;
+
 class FeedingEditor extends Component {
   static getStores() {
     return [store];
   }
 
   static calculateState() {
-    const { feedings, ...state } = store.getState();
-    const id = (/\d+$/g.exec(window.location.pathname) || [])[0];
-    let target;
-    if (id && feedings && feedings.length > 0) {
-      target = feedings.find(a => a.id === id);
-    }
-    return { target, feedings, ...state };
+    return store.getState();
   }
 
   componentDidMount() {
@@ -29,8 +25,12 @@ class FeedingEditor extends Component {
   }
 
   render() {
-    const { target, processing: { feeding } } = this.state;
-    const { current } = this.props.match.params;
+    const { feedings, processing: { feeding } } = this.state;
+    const { current, id } = this.props.match.params;
+    target = undefined;
+    if (id && feedings && feedings.length > 0) {
+      target = feedings.find(a => a.id === id);
+    }
     return (
       <article className={css.wrapper}>
         <h1 className="blind">기록하기</h1>
@@ -53,9 +53,9 @@ class FeedingEditor extends Component {
 
   onSubmit = async (values) => {
     try {
-      if (this.state.target) {
-        const { user: { uid }, target: { id } } = this.state;
-        await actions.updateFeeding(uid, id, values);
+      if (target) {
+        const { user: { uid } } = this.state;
+        await actions.updateFeeding(uid, target.id, values);
       } else {
         await actions.saveFeeding(this.state.user.uid, values);
       }

@@ -1,13 +1,14 @@
 import account from '../remotes/account.js';
 import feedings from '../remotes/feedings';
-import { dispatch, ActionTypes } from './dispatcher';
+import { dispatch } from './dispatcher';
+import actionTypes from './actionTypes';
 
 let unsubscribe;
 
 export default {
   async listenUser() {
     account.listen((user) => {
-      dispatch({ type: ActionTypes.UPDATE_USER, user });
+      dispatch({ type: actionTypes.UPDATE_USER, user });
     })
   },
 
@@ -16,39 +17,39 @@ export default {
       unsubscribe();
     }
     unsubscribe = feedings.listen(userId, date, (feedings) => {
-      dispatch({ type: ActionTypes.UPDATE_FEEDINGS, feedings });
+      dispatch({ type: actionTypes.UPDATE_FEEDINGS, feedings });
     });
   },
 
   async login(email, password) {
-    dispatch({ type: ActionTypes.LOGIN_START });
+    dispatch({ type: actionTypes.LOGIN_START });
     try {
       await account.login(email, password);
-      dispatch({ type: ActionTypes.LOGIN_SUCCESS });
+      dispatch({ type: actionTypes.LOGIN_SUCCESS });
     } catch(error) {
-      dispatch({ type: ActionTypes.LOGIN_FAIL });
+      dispatch({ type: actionTypes.LOGIN_FAIL });
       throw error;
     }
   },
 
   async saveFeeding(userId, values) {
-    dispatch({ type: ActionTypes.UPDATE_FEEDING_START });
+    dispatch({ type: actionTypes.UPDATE_FEEDING_START });
     try {
       await feedings.create(userId, values);
-      dispatch({ type: ActionTypes.UPDATE_FEEDING_SUCCESS });
+      dispatch({ type: actionTypes.UPDATE_FEEDING_SUCCESS });
     } catch (error) {
-      dispatch({ type: ActionTypes.UPDATE_FEEDING_FAIL });
+      dispatch({ type: actionTypes.UPDATE_FEEDING_FAIL });
       throw error;
     }
   },
 
   async updateFeeding(userId, feedingId, values) {
-    dispatch({ type: ActionTypes.UPDATE_FEEDING_START });
+    dispatch({ type: actionTypes.UPDATE_FEEDING_START });
     try {
       await feedings.update(userId, feedingId, values);
-      dispatch({ type: ActionTypes.UPDATE_FEEDING_SUCCESS });
+      dispatch({ type: actionTypes.UPDATE_FEEDING_SUCCESS });
     } catch (error) {
-      dispatch({ type: ActionTypes.UPDATE_FEEDING_FAIL });
+      dispatch({ type: actionTypes.UPDATE_FEEDING_FAIL });
       throw error;
     }
   },
