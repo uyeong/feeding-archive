@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Container } from 'flux/utils';
 import moment from 'moment';
-import { Button } from 'antd-mobile';
+import { Button, Modal } from 'antd-mobile';
 import store from '../../flux/store';
 import actions from '../../flux/actions';
 import FeedingStats from './FeedingStats';
 import FeedingTable from './FeedingTable';
 import css from './FeedingList.module.scss';
+
+const alert = Modal.alert;
 
 class FeedingList extends Component {
   static getStores() {
@@ -72,8 +74,13 @@ class FeedingList extends Component {
   };
 
   onRemoveFeeding = (feeding) => {
-    const { uid } = this.state.user;
-    actions.removeFeeding(uid, feeding);
+    alert('삭제', '정말 삭제합니까?', [
+      { text: '취소' },
+      { text: '확인', onPress: () => {
+        const { uid } = this.state.user;
+        actions.removeFeeding(uid, feeding);
+      } },
+    ]);
   }
 }
 
