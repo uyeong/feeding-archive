@@ -3,20 +3,20 @@ import feedings from '../remotes/feedings';
 import { dispatch } from './dispatcher';
 import actionTypes from './actionTypes';
 
-let unsubscribe;
+let unsubscribe = [];
 
 export default {
   async listenUser() {
-    account.listen((user) => {
+    unsubscribe[0] = account.listen((user) => {
       dispatch({ type: actionTypes.UPDATE_USER, user });
-    })
+    });
   },
 
   async listenFeedings(userId, date) {
-    if (unsubscribe) {
-      unsubscribe();
+    if (unsubscribe[1]) {
+      unsubscribe[1]();
     }
-    unsubscribe = feedings.listen(userId, date, (feedings) => {
+    unsubscribe[1] = feedings.listen(userId, date, (feedings) => {
       dispatch({ type: actionTypes.UPDATE_FEEDINGS, feedings });
     });
   },
@@ -30,6 +30,12 @@ export default {
       dispatch({ type: actionTypes.LOGIN_FAIL });
       throw error;
     }
+  },
+
+  async logout() {
+    await account.logout();
+    unsubscribe.forEach(u => u());
+    dispatch({ type: actionTypes.LOGOUT });
   },
 
   async saveFeeding(userId, values) {

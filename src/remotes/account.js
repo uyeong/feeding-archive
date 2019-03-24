@@ -2,7 +2,7 @@ import firebase, { auth } from './init';
 
 export default {
   listen(callback) {
-    auth.onAuthStateChanged(user => {
+    return auth.onAuthStateChanged(user => {
       callback(user)
     });
   },

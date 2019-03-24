@@ -42,7 +42,7 @@ class App extends Component {
         </ReactCSSTransitionGroup>
         {user !== undefined && (
           <Router basename={process.env.PUBLIC_URL}>
-            <Header />
+            <Header useLogoutBtn={isAuthenticated} />
             <Route path={"/login"} component={Login} />
             <Switch>
               <Redirect

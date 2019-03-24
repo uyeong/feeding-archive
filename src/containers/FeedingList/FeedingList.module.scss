@@ -24,7 +24,7 @@
     display: inline-block;
     width: 30px;
     height: 30px;
-    background-image: url("../../images/left-arrow.svg");
+    background-image: url("../../images/img-left-arrow.svg");
     background-size: 18px;
     background-position: center;
     background-repeat: no-repeat;
@@ -32,7 +32,7 @@
   .navigation a:last-child {
     right: 0;
     left: auto;
-    background-image: url("../../images/right-arrow.svg");
+    background-image: url("../../images/img-right-arrow.svg");
   }
   .write {
     position: fixed !important;

@@ -35,6 +35,10 @@ class Store extends ReduceStore {
         case actionTypes.LOGIN_START:
           draft.processing.login = true;
           break;
+        case actionTypes.LOGOUT:
+          draft.user = null;
+          draft.feedings = undefined;
+          break;
         case actionTypes.UPDATE_FEEDING_START:
           draft.processing.feeding = true;
           break;
