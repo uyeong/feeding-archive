@@ -1,70 +1,49 @@
-import React, { Component } from 'react';
-import { Container } from 'flux/utils';
-import store from '../../flux/store';
+import React, { useContext, useEffect, useCallback, useRef } from 'react';
 import actions from '../../flux/actions';
+import { AppContext } from '../../App';
 import Form from './Form';
 import css from './FeedingEditor.module.scss';
 
-let target;
-
-class FeedingEditor extends Component {
-  static getStores() {
-    return [store];
+const FeedingEditor = ({ match, history }) => {
+  const { user, feedings, processing: { feeding } } = useContext(AppContext);
+  const { current, id } = match.params;
+  const target = useRef();
+  if (id && feedings && feedings.length > 0) {
+    target.current = feedings.find(a => a.id === id);
   }
-
-  static calculateState() {
-    return store.getState();
-  }
-
-  componentDidMount() {
-    if (this.state.feedings === undefined) {
-      const { uid } = this.state.user;
-      const { current } = this.props.match.params;
-      setTimeout(() => actions.listenFeedings(uid, current));
-    }
-  }
-
-  render() {
-    const { feedings, processing: { feeding } } = this.state;
-    const { current, id } = this.props.match.params;
-    target = undefined;
-    if (id && feedings && feedings.length > 0) {
-      target = feedings.find(a => a.id === id);
-    }
-    return (
-      <article className={css.wrapper}>
-        <h1 className="blind">기록하기</h1>
-        <div className={css['input-wrap']}>
-          <Form
-            date={current}
-            feeding={target}
-            loading={feeding}
-            onCancel={this.onCancel}
-            onSubmit={this.onSubmit}
-          />
-        </div>
-      </article>
-    );
-  }
-
-  onCancel = () => {
-    this.props.history.goBack();
-  };
-
-  onSubmit = async (values) => {
+  const fnOnCancel = useCallback(() => {
+    history.goBack();
+  }, []);
+  const fnOnSubmit = useCallback(async (values) => {
     try {
-      if (target) {
-        const { user: { uid } } = this.state;
-        await actions.updateFeeding(uid, target.id, values);
+      if (target.current) {
+        await actions.updateFeeding(user.uid, target.current.id, values);
       } else {
-        await actions.saveFeeding(this.state.user.uid, values);
+        await actions.saveFeeding(user.uid, values);
       }
+      history.goBack();
     }
     catch (e) {}
-    finally {
-      this.props.history.goBack();
+  }, []);
+  useEffect(() => {
+    if (feedings === undefined) {
+      actions.listenFeedings(user.uid, current);
     }
-  };
-}
+  }, [current]);
+  return (
+    <article className={css.wrapper}>
+      <h1 className="blind">기록하기</h1>
+      <div className={css['input-wrap']}>
+        <Form
+          current={current}
+          feeding={target.current}
+          loading={feeding}
+          onCancel={fnOnCancel}
+          onSubmit={fnOnSubmit}
+        />
+      </div>
+    </article>
+  );
+};
 
-export default Container.create(FeedingEditor);
+export default FeedingEditor;

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, createContext } from 'react';
 import { Container } from 'flux/utils';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
@@ -11,6 +11,8 @@ import Login from './containers/Login';
 import Editor from './containers/FeedingEditor';
 import Feedings from "./containers/FeedingList";
 import './App.scss';
+
+export const AppContext = createContext(store.getInitialState());
 
 class App extends Component {
   static getStores() {
@@ -30,7 +32,7 @@ class App extends Component {
     const isAuthenticated = !!user;
     const today = moment().format('YYYY-MM-DD');
     return (
-      <div>
+      <AppContext.Provider value={this.state}>
         <ReactCSSTransitionGroup
           transitionName="preparing"
           transitionEnterTimeout={0}
@@ -66,7 +68,7 @@ class App extends Component {
             </Switch>
           </Router>
         )}
-      </div>
+      </AppContext.Provider>
     )
   }
 }
