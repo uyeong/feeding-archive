@@ -54,6 +54,8 @@ class Archives extends Component {
               <td>50 ml</td>
               <td>
                 <Link to={`/archives/${current}/edit/1`}>수정</Link>
+                <span> / </span>
+                <a href="#" role="button">삭제</a>
               </td>
             </tr>
             <tr>
@@ -62,6 +64,8 @@ class Archives extends Component {
               <td>60 ml</td>
               <td>
                 <Link to={`/archives/${current}/edit/2`}>수정</Link>
+                <span> / </span>
+                <a href="#" role="button">삭제</a>
               </td>
             </tr>
             <tr>
@@ -70,6 +74,8 @@ class Archives extends Component {
               <td>-</td>
               <td>
                 <Link to={`/archives/${current}/edit/3`}>수정</Link>
+                <span> / </span>
+                <a href="#" role="button">삭제</a>
               </td>
             </tr>
             </tbody>
