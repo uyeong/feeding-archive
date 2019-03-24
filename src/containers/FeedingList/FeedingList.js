@@ -13,9 +13,6 @@ const FeedingList = ({ match, history }) => {
   const { current } = match.params;
   const prev = moment(current).subtract(1, 'days').format('YYYY-MM-DD');
   const next = moment(current).add(1, 'days').format('YYYY-MM-DD');
-  const fnListenFeedings = useCallback(() => {
-    actions.listenFeedings(user.uid, current)
-  }, [current]);
   const fnOnClickWriteFeeding = useCallback((event) => {
     event.preventDefault();
     const url = event.currentTarget.getAttribute('href');
@@ -29,7 +26,9 @@ const FeedingList = ({ match, history }) => {
       } },
     ]);
   }, []);
-  useEffect(() => fnListenFeedings(), [current]);
+  useEffect(() => {
+    actions.listenFeedings(user.uid, current);
+  }, [current]);
   return (
     <article className={css.wrapper}>
       <div className={css.header}>
