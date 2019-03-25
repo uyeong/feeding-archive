@@ -3,20 +3,20 @@ import feedings from '../remotes/feedings';
 import { dispatch } from './dispatcher';
 import actionTypes from './actionTypes';
 
-let unsubscribe = [];
+let unsubscribe;
 
 export default {
-  async listenUser() {
-    unsubscribe[0] = account.listen((user) => {
+  listenUser() {
+    account.listen((user) => {
       dispatch({ type: actionTypes.UPDATE_USER, user });
     });
   },
 
-  async listenFeedings(userId, date) {
-    if (unsubscribe[1]) {
-      unsubscribe[1]();
+  listenFeedings(userId, date) {
+    if (unsubscribe) {
+      unsubscribe();
     }
-    unsubscribe[1] = feedings.listen(userId, date, (feedings) => {
+    unsubscribe = feedings.listen(userId, date, (feedings) => {
       dispatch({ type: actionTypes.UPDATE_FEEDINGS, feedings });
     });
   },
@@ -34,7 +34,10 @@ export default {
 
   async logout() {
     await account.logout();
-    unsubscribe.forEach(u => u());
+    if (unsubscribe) {
+      unsubscribe();
+      unsubscribe = undefined;
+    }
     dispatch({ type: actionTypes.LOGOUT });
   },
 
